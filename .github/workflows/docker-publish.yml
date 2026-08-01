@@ -20,6 +20,16 @@ jobs:
         run: |
           echo "REPO_LOWER=${GITHUB_REPOSITORY,,}" >> $GITHUB_ENV
 
+      # 🔧 在构建前修改 Dockerfile
+      - name: Patch Dockerfile to use npm install with China mirror
+        run: |
+          # 如果 Dockerfile 中有 npm ci，将其替换为 npm install --registry=... 
+          # 同时保留原有的其他命令
+          sed -i 's/npm ci/npm install --registry=https:\/\/registry.npmmirror.com/g' Dockerfile
+          # 如果 Dockerfile 中没有 npm ci，可以尝试添加一行，但一般都会有
+          echo "Patched Dockerfile:"
+          cat Dockerfile
+
       - name: Log in to GHCR
         uses: docker/login-action@v3
         with:
@@ -41,5 +51,3 @@ jobs:
           platforms: linux/amd64,linux/arm64
           cache-from: type=gha
           cache-to: type=gha,mode=max
-          build-args: |
-            NPM_CONFIG_REGISTRY=https://registry.npmmirror.com
