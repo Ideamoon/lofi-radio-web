@@ -49,58 +49,57 @@ jobs:
             echo "tag=${{ github.event.inputs.tag || 'latest' }}" >> "$GITHUB_OUTPUT"
           fi
 
+      # ✅ 升级到 v5
       - name: Checkout source code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
-      # 🔧 新增：修补 Dockerfile，使用国内镜像源
+      # 🔧 修补 Dockerfile，使用国内镜像源（解决 npm 下载超时）
       - name: Patch Dockerfile for China mirror
         run: |
-          # 将 npm ci 替换为 npm install 并指定镜像源
           sed -i 's/npm ci/npm install --registry=https:\/\/registry.npmmirror.com --timeout=600000/g' Dockerfile || true
-          # 如果 Dockerfile 中使用的是 npm install，则替换为带镜像源的版本
           sed -i 's/npm install/npm install --registry=https:\/\/registry.npmmirror.com --timeout=600000/g' Dockerfile || true
           echo "Patched Dockerfile:"
           cat Dockerfile
 
+      # ✅ 升级到 v4
       - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
+        uses: docker/setup-buildx-action@v4
 
+      # ✅ 升级到 v4
       - name: Login to GitHub Container Registry
-        uses: docker/login-action@v3
+        uses: docker/login-action@v4
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      # 🔧 修改：动态获取仓库名（全部小写）
       - name: Set lowercase repository name
         id: repo
         run: |
           echo "repo=$(echo '${{ github.repository }}' | tr '[:upper:]' '[:lower:]')" >> "$GITHUB_OUTPUT"
 
+      # ✅ 升级到 v6
       - name: Extract metadata
         id: meta
-        uses: docker/metadata-action@v5
+        uses: docker/metadata-action@v6
         with:
-          # 🔧 修改：使用动态镜像名
           images: ghcr.io/${{ steps.repo.outputs.repo }}
           tags: |
             type=raw,value=${{ github.event.inputs.tag || 'latest' }},enable={{is_default_branch}}
             type=semver,pattern={{version}},enable=${{ github.event_name == 'release' }}
             type=semver,pattern={{major}}.{{minor}},enable=${{ github.event_name == 'release' }}
 
+      # ✅ 升级到 v7
       - name: Build and push by digest
         id: build
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v7
         with:
           context: .
           file: ./Dockerfile
           platforms: ${{ matrix.platform }}
           labels: ${{ steps.meta.outputs.labels }}
-          # 🔧 修改：使用动态镜像名和标签
           tags: ghcr.io/${{ steps.repo.outputs.repo }}:${{ steps.docker-tag.outputs.tag }}
           outputs: type=image,name=ghcr.io/${{ steps.repo.outputs.repo }},name-canonical=true,push=true
-          # 🔧 新增：开启缓存加速构建
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
@@ -110,8 +109,9 @@ jobs:
           digest="${{ steps.build.outputs.digest }}"
           touch "/tmp/digests/${digest#sha256:}"
 
+      # ✅ 升级到 v5
       - name: Upload digest
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: digests-${{ env.PLATFORM_NAME }}
           path: /tmp/digests/*
@@ -123,18 +123,21 @@ jobs:
     needs:
       - build
     steps:
+      # ✅ 升级到 v5
       - name: Download digests
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v5
         with:
           path: /tmp/digests
           pattern: digests-*
           merge-multiple: true
 
+      # ✅ 升级到 v4
       - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
+        uses: docker/setup-buildx-action@v4
 
+      # ✅ 升级到 v4
       - name: Login to GitHub Container Registry
-        uses: docker/login-action@v3
+        uses: docker/login-action@v4
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
