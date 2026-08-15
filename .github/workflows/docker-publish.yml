@@ -40,20 +40,10 @@ jobs:
         run: |
           echo "PLATFORM_NAME=${{ matrix.platform }}" | sed 's|/|-|g' >> $GITHUB_ENV
 
-      - name: Determine Docker tag
-        id: docker-tag
-        run: |
-          if [ "${{ github.event_name }}" = "release" ]; then
-            echo "tag=${{ github.event.release.tag_name }}" >> "$GITHUB_OUTPUT"
-          else
-            echo "tag=${{ github.event.inputs.tag || 'latest' }}" >> "$GITHUB_OUTPUT"
-          fi
-
-      # ✅ 升级到 v5
       - name: Checkout source code
         uses: actions/checkout@v5
 
-      # 🔧 修补 Dockerfile，使用国内镜像源（解决 npm 下载超时）
+      # 修补 Dockerfile，使用国内镜像源（解决 npm 下载超时）
       - name: Patch Dockerfile for China mirror
         run: |
           sed -i 's/npm ci/npm install --registry=https:\/\/registry.npmmirror.com --timeout=600000/g' Dockerfile || true
@@ -61,11 +51,41 @@ jobs:
           echo "Patched Dockerfile:"
           cat Dockerfile
 
-      # ✅ 升级到 v4
+      - name: Determine Docker tags
+        id: docker-tag
+        run: |
+          # 生成 UTC 时间标签 (YYYYMMDD-HHMMSS)
+          DATETIME=$(date -u +'%Y%m%d-%H%M%S')
+          echo "datetime=$DATETIME" >> "$GITHUB_OUTPUT"
+
+          # 生成 Git commit 短哈希
+          SHA=$(git rev-parse --short HEAD)
+          echo "sha=$SHA" >> "$GITHUB_OUTPUT"
+
+          # 根据事件类型确定主标签
+          if [ "${{ github.event_name }}" = "release" ]; then
+            TAG="${{ github.event.release.tag_name }}"
+          else
+            TAG="${{ github.event.inputs.tag || 'latest' }}"
+          fi
+          echo "tag=$TAG" >> "$GITHUB_OUTPUT"
+
+          # 将所有标签写入文件，便于传递到 merge job
+          mkdir -p /tmp/tags
+          cat > /tmp/tags/tags.txt <<EOF
+          ${{ github.repository_owner }}/${{ github.event.repository.name }}:${TAG}
+          ${{ github.repository_owner }}/${{ github.event.repository.name }}:${DATETIME}
+          ${{ github.repository_owner }}/${{ github.event.repository.name }}:${SHA}
+          EOF
+
+      - name: Set lowercase repository name
+        id: repo
+        run: |
+          echo "repo=$(echo '${{ github.repository }}' | tr '[:upper:]' '[:lower:]')" >> "$GITHUB_OUTPUT"
+
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v4
 
-      # ✅ 升级到 v4
       - name: Login to GitHub Container Registry
         uses: docker/login-action@v4
         with:
@@ -73,23 +93,6 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Set lowercase repository name
-        id: repo
-        run: |
-          echo "repo=$(echo '${{ github.repository }}' | tr '[:upper:]' '[:lower:]')" >> "$GITHUB_OUTPUT"
-
-      # ✅ 升级到 v6
-      - name: Extract metadata
-        id: meta
-        uses: docker/metadata-action@v6
-        with:
-          images: ghcr.io/${{ steps.repo.outputs.repo }}
-          tags: |
-            type=raw,value=${{ github.event.inputs.tag || 'latest' }},enable={{is_default_branch}}
-            type=semver,pattern={{version}},enable=${{ github.event_name == 'release' }}
-            type=semver,pattern={{major}}.{{minor}},enable=${{ github.event_name == 'release' }}
-
-      # ✅ 升级到 v7
       - name: Build and push by digest
         id: build
         uses: docker/build-push-action@v7
@@ -97,8 +100,14 @@ jobs:
           context: .
           file: ./Dockerfile
           platforms: ${{ matrix.platform }}
-          labels: ${{ steps.meta.outputs.labels }}
-          tags: ghcr.io/${{ steps.repo.outputs.repo }}:${{ steps.docker-tag.outputs.tag }}
+          # 使用 metadata-action 仅用于生成 labels，但 tags 由我们自定义
+          labels: |
+            org.opencontainers.image.source=${{ github.server_url }}/${{ github.repository }}
+            org.opencontainers.image.revision=${{ github.sha }}
+          tags: |
+            ghcr.io/${{ steps.repo.outputs.repo }}:${{ steps.docker-tag.outputs.tag }}
+            ghcr.io/${{ steps.repo.outputs.repo }}:${{ steps.docker-tag.outputs.datetime }}
+            ghcr.io/${{ steps.repo.outputs.repo }}:${{ steps.docker-tag.outputs.sha }}
           outputs: type=image,name=ghcr.io/${{ steps.repo.outputs.repo }},name-canonical=true,push=true
           cache-from: type=gha
           cache-to: type=gha,mode=max
@@ -109,12 +118,19 @@ jobs:
           digest="${{ steps.build.outputs.digest }}"
           touch "/tmp/digests/${digest#sha256:}"
 
-      # ✅ 升级到 v5
-      - name: Upload digest
+      - name: Upload digests
         uses: actions/upload-artifact@v5
         with:
           name: digests-${{ env.PLATFORM_NAME }}
           path: /tmp/digests/*
+          if-no-files-found: error
+          retention-days: 1
+
+      - name: Upload tags list
+        uses: actions/upload-artifact@v5
+        with:
+          name: tags
+          path: /tmp/tags/tags.txt
           if-no-files-found: error
           retention-days: 1
 
@@ -123,7 +139,6 @@ jobs:
     needs:
       - build
     steps:
-      # ✅ 升级到 v5
       - name: Download digests
         uses: actions/download-artifact@v5
         with:
@@ -131,11 +146,15 @@ jobs:
           pattern: digests-*
           merge-multiple: true
 
-      # ✅ 升级到 v4
+      - name: Download tags
+        uses: actions/download-artifact@v5
+        with:
+          name: tags
+          path: /tmp/tags
+
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v4
 
-      # ✅ 升级到 v4
       - name: Login to GitHub Container Registry
         uses: docker/login-action@v4
         with:
@@ -148,20 +167,19 @@ jobs:
         run: |
           echo "repo=$(echo '${{ github.repository }}' | tr '[:upper:]' '[:lower:]')" >> "$GITHUB_OUTPUT"
 
-      - name: Determine Docker tag
-        id: docker-tag
-        run: |
-          if [ "${{ github.event_name }}" = "release" ]; then
-            echo "tag=${{ github.event.release.tag_name }}" >> "$GITHUB_OUTPUT"
-          else
-            echo "tag=${{ github.event.inputs.tag || 'latest' }}" >> "$GITHUB_OUTPUT"
-          fi
-
       - name: Create manifest list and push
         working-directory: /tmp/digests
         run: |
-          docker buildx imagetools create -t ghcr.io/${{ steps.repo.outputs.repo }}:${{ steps.docker-tag.outputs.tag }} \
-            $(printf 'ghcr.io/${{ steps.repo.outputs.repo }}@sha256:%s ' *)
+          DIGESTS=$(printf 'ghcr.io/${{ steps.repo.outputs.repo }}@sha256:%s ' *)
+          # 读取所有标签
+          mapfile -t TAGS < /tmp/tags/tags.txt
+          for TAG in "${TAGS[@]}"; do
+            # 如果标签包含组织/仓库前缀，则需要转换为全小写（因为GHCR要求小写）
+            # 实际上我们从tags.txt中读取的是全小写格式，因为我们在build中使用了小写仓库名
+            # 但为了保险，我们可以直接使用当前repo变量构造
+            FULL_TAG="ghcr.io/${{ steps.repo.outputs.repo }}:${TAG#*:}"
+            docker buildx imagetools create -t "$FULL_TAG" $DIGESTS
+          done
 
   cleanup-refresh:
     runs-on: ubuntu-latest
