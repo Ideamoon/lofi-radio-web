@@ -19,44 +19,38 @@ macOS 风格灵动岛设计，21 个精选电台，打开即听，无需注册�
 
 ---
 
-## ❤️ 赞助商
+## 💖 赞助商
 
 <table>
 <tr>
 <td width="180" align="center" valign="middle">
-  <a href="https://manus.im/invitation/EBN1N2RKB6J8ZQI?utm_source=invitation&utm_medium=social&utm_campaign=copy_link"><img src="https://cdn.jsdmirror.com/gh/88lin/picx-images-hosting@master/ScreenShot_2026-08-14_101018_342.webp" alt="Manus" width="150"></a>
+  <a href="https://agentrouter.org/register?aff=ugVO"><img src="https://cdn.jsdmirror.com/gh/88lin/picx-images-hosting@master/90C5FAD072EA247822CB88BB32512A41.webp" alt="Agent Router" width="150"></a>
 </td>
-<td valign="middle"><b><a href="https://manus.im/invitation/EBN1N2RKB6J8ZQI?utm_source=invitation&utm_medium=social&utm_campaign=copy_link">Manus</a></b>&nbsp;限时免费，点此邀请链接注册即可得1500积分。Manus 1.6 Lite 和 Manus 1.6 在 8月25日（新加坡时间）之前免费使用，不会消耗积分。</td>
+<td valign="middle"><b><a href="https://agentrouter.org/register?aff=ugVO">Agent Router</a></b>&nbsp;是免费公益大模型API平台，支持GPT-6-Astra、gpt-5.6-sol、claude-opus-5、glm-5.3、deepseek-v4-flash等主流模型，国内直连。注册送＄175（每日签到得＄25，被邀得＄50），支持GitHub/LinuxDo登录。</td>
+</tr>
+<tr>
+<td width="180" align="center" valign="middle">
+  <a href="https://anyrouter.top/register?aff=woX5"><img src="https://cdn.jsdmirror.com/gh/88lin/picx-images-hosting@master/微信图片_20260907170036_114_2.webp" alt="Any Router" width="150"></a>
+</td>
+<td valign="middle"><b><a href="https://anyrouter.top/register?aff=woX5">Any Router</a></b>&nbsp;是免费公益大模型API平台，可用GPT-6-Astra、claude-fable-5.1等顶级模型。被邀得＄50，每日签到随机额度。</td>
 </tr>
 <tr>
 <td width="180" align="center" valign="middle">
   <a href="https://www.sheapi.top/sign-up?aff=MvcR"><img src="https://cdn.jsdmirror.com/gh/88lin/picx-images-hosting@master/ScreenShot_2026-08-06_174058_726.webp" alt="SheApi" width="150"></a>
 </td>
-<td valign="middle"><b><a href="https://www.sheapi.top/sign-up?aff=MvcR">SheApi</a></b>&nbsp;是一家可靠高效的 API 中转服务提供商，主要提供 Claude Code、Codex 等主流模型的高稳定中转能力，Codex 倍率补贴低至 0.06，GPT-Image-2生图每张0.04。受邀注册送$1 体验金，每日签到还可领取专属免费额度。</td>
+<td valign="middle"><b><a href="https://www.sheapi.top/sign-up?aff=MvcR">SheApi</a></b>&nbsp;是一家可靠高效的 API 中转服务提供商，主要提供 Claude Code、Codex 等主流模型的高稳定中转能力，Codex 倍率补贴低至 0.08，GPT-Image-2生图每张0.04。受邀注册送$1 体验金，每日签到还可领取专属免费额度。</td>
 </tr>
 <tr>
 <td width="180" align="center" valign="middle">
   <a href="https://www.workbuddy.cn/events/invite?inviteCode=w0x2ic45z"><img src="https://download.codebuddy.cn/web/workbuddy/0bebf86e38e7d71ff0c313d661e7753ff996c54e/assets/workbuddy-logo-WhgOvEF7.png" alt="WorkBuddy" width="150"></a>
 </td>
-<td valign="middle"><b><a href="https://www.workbuddy.cn/events/invite?inviteCode=w0x2ic45z">WorkBuddy</a></b>&nbsp;是腾讯出品的全能 AI 工作台，是中国最受欢迎的效率 AI 智能体服务，说出要求、开始执行任务、交付完整成果。其中Hy3模型限时免费使用，注册即可获取2000积分，每月再赠送500积分，可用Kimi-K3、GLM-5.2等模型。</td>
+<td valign="middle"><b><a href="https://www.workbuddy.cn/events/invite?inviteCode=w0x2ic45z">WorkBuddy</a></b>&nbsp;是腾讯出品的全能 AI 工作台，是中国最受欢迎的效率 AI 智能体服务，说出要求、开始执行任务、交付完整成果。其中Hy4模型限时免费使用，注册即可获取2000积分，每月再赠送500积分，可用Kimi-K3、GLM-5.3、Deepseek-V4.1-Flash等模型。</td>
 </tr>
 <tr>
 <td width="180" align="center" valign="middle">
-  <a href="https://seekai.cc/sign-up?aff=Plh5"><img src="https://cdn.jsdmirror.com/gh/88lin/picx-images-hosting@master/ScreenShot_2026-07-31_213220_778.webp" alt="SeekAi" width="150"></a>
+  <a href="https://github.com/88lin/workbuddy-auto-signin"><img src="https://download.codebuddy.cn/web/workbuddy/0bebf86e38e7d71ff0c313d661e7753ff996c54e/assets/workbuddy-logo-WhgOvEF7.png" alt="JustDoWork" width="150"></a>
 </td>
-<td valign="middle"><b><a href="https://seekai.cc/sign-up?aff=Plh5">SeekAi</a></b>&nbsp;是免费公益大模型API平台，可用claude-fable-5、Claude-Opus-5、kimi-k3、gpt-5.6-sol、glm-5.2、DeepSeek-V4-Flash-0731等主流模型，目前较稳定。注册送＄200，每日签到得＄20，支持GitHub登录。</td>
-</tr>
-<tr>
-<td width="180" align="center" valign="middle">
-  <a href="https://gorouter.app/sign-up?aff=hfcV"><img src="https://cdn.jsdmirror.com/gh/88lin/picx-images-hosting@master/ScreenShot_2026-07-31_200922_732.webp" alt="GoRouter" width="150"></a>
-</td>
-<td valign="middle"><b><a href="https://gorouter.app/sign-up?aff=hfcV">GoRouter</a></b>&nbsp;是免费公益大模型API平台，可用Claude Opus 5 模型，目前较稳定。注册送＄70，每日签到得＄10左右，支持GitHub登录。</td>
-</tr>
-<tr>
-<td width="180" align="center" valign="middle">
-  <a href="https://agentrouter.org/register?aff=ugVO"><img src="https://cdn.jsdmirror.com/gh/88lin/picx-images-hosting@master/90C5FAD072EA247822CB88BB32512A41.webp" alt="Agent Router" width="150"></a>
-</td>
-<td valign="middle"><b><a href="https://agentrouter.org/register?aff=ugVO">Agent Router</a></b>&nbsp;是免费公益大模型API平台，支持GPT-5.6、Claude Opus 5 等主流模型，国内直连。注册送＄125，每日签到得＄25，被邀得＄50，支持GitHub/LinuxDo登录。</td>
+<td valign="middle"><b><a href="https://github.com/88lin/workbuddy-auto-signin">workbuddy-auto-signin</a></b>&nbsp;是一个可以自动领取 WorkBuddy 每日签到积分、Buddy 旅行礼物、派 Buddy 出发、开盲盒、领任务奖励、连登兑换、断登补签的自动化脚本。Windows / macOS 定时任务，一句话交给 AI 自动配好，零 Token 静默运行。</td>
 </tr>
 </table>
 
@@ -372,8 +366,7 @@ lofi-radio-web/
 │   │   ├── robots.ts            # robots.txt 路由
 │   │   ├── sitemap.ts           # sitemap.xml 路由
 │   │   └── api/                 # API 路由
-│   │       ├── bilibili-stream/ # B站直播流解析
-│   │       └── stations/        # 电台同步 API
+│   │       └── bilibili-stream/ # B站直播流解析
 │   ├── components/              # 组件
 │   │   ├── lofi/                # Lofi 相关组件
 │   │   │   └── floating-player.tsx  # 浮动播放器
